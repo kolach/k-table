@@ -1,0 +1,77 @@
+/*
+ * @license
+ * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+
+/*:host {*/
+  /*display: block;*/
+/*}*/
+
+/* To ensure your styling works under the Shadow DOM polyfill, see*/
+   /*www.polymer-project.org/docs/polymer/styling.html#directives */
+/*polyfill-next-selector { content: ':host > h2'; }*/
+/*::content h2 {*/
+  /*color: blue;*/
+/*}*/
+
+
+
+/*
+ * @license
+ * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+
+/*:host {*/
+    /*display: block;*/
+    /*overflow: auto;*/
+/*}*/
+
+/*.k-table-viewport > * {*/
+    /*overflow: hidden;*/
+/*}*/
+
+/*.k-table-viewport.horizontal {*/
+    /*height: 100%;*/
+    /*white-space: nowrap;*/
+/*}*/
+
+/*.k-table-viewport.horizontal > * {*/
+    /*display: inline-block;*/
+/*}*/
+
+/* Setting will-change: transform on the #viewport makes the viewport a*/
+   /*stacking context, which causes all the composited layers inside the*/
+   /*viewport to actually be stacked underneath the viewport. */
+/*#viewport {*/
+    /*will-change: transform;*/
+/*}*/
+
+:host {
+    display: block;
+    overflow: hidden;
+}
+
+.row {
+    box-sizing: border-box;
+    height: 80px;
+    line-height: 80px;
+    border-bottom: 1px solid #ddd;
+    padding: 0 4px;
+    cursor: default;
+    background-color: white;
+    overflow: hidden;
+}
+
+.row[selected] {
+    font-weight: bold;
+}

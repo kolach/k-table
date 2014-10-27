@@ -1,0 +1,45 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="k-scroller" attributes="axis">
+
+    <template>
+        <content></content>
+    </template>
+
+    <script>
+
+        Polymer({
+
+            axis: 'x',
+
+            observe: {
+                '_scroller _scrolled': 'initialize'
+            },
+
+            ready: function() {
+                this._boundScrollHandler = this.scrollHandler.bind(this);
+            },
+
+            attached: function() {
+                this._scroller = this.querySelector('[scroller]');
+                this._scrolled = this.querySelector('[scrolled]');
+            },
+
+            initialize: function() {
+                if (this._scroller && this._scrolled) {
+                    this._scroller.addEventListener('scroll', this._boundScrollHandler, false);
+                }
+            },
+
+            scrollHandler: function(e, detail) {
+                var scrollLeft = e.detail ? e.detail.target.scrollLeft : e.target.scrollLeft;
+                if (this.axis === 'x') {
+                    this._scrolled.style.marginLeft = -scrollLeft + 'px';
+                } else {
+                }
+            }
+
+        });
+    </script>
+
+</polymer-element>

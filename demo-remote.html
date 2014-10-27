@@ -1,0 +1,92 @@
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>seed-element Demo</title>
+    <script src="../platform/platform.js"></script>
+    <link rel="import" href="k-remote-table.html">
+    <link rel="import" href="../paper-button/paper-button.html">
+    <link rel="import" href="../core-toolbar/core-toolbar.html">
+</head>
+
+<body unresolved fullbleed vertical layout>
+
+<p>An example of using <code>&lt;k-remote-table></code>:</p>
+
+
+<table-test flex></table-test>
+
+
+
+<polymer-element name="table-test" vertical layout>
+    <template>
+
+        <style>
+            k-remote-table /deep/ .row {
+                box-sizing      : border-box;
+                height          : 32px;
+                line-height     : 32px;
+                border-bottom   : 1px solid #ddd;
+                cursor          : default;
+                background-color: white;
+                overflow: hidden;
+            }
+        </style>
+
+        <k-remote-table flex auto columns="{{columns}}" dataProvider="{{provider}}" rowHeight="32" order="id"></k-remote-table>
+
+    </template>
+
+    <script>
+        (function() {
+
+            Polymer({
+
+                data: [],
+
+                ready: function() {
+                    this.data       = this.generateData();
+                    this.provider   = this.provide.bind(this);
+                    this.columns    = [
+                        {name: 'id',        title: 'id', width:  5, visible: true, orderName: 'id' },
+                        {name: 'firstName', title: 'First Name', width: 15, visible: true, orderName: 'firstName' },
+                        {name: 'lastName',  title: 'Last Name',  width: 20, visible: true, orderName: 'lastName' }
+                    ];
+                },
+
+                provide: function(params) {
+                    console.log('Requesting data with params', params);
+                    var start = params.offset || 0;
+                    var end   = start + params.limit;
+                    return Promise.resolve(this.data.slice(start, end));
+                },
+
+                generateData: function() {
+                    var data = [];
+                    for (var i = 1; i < 1001; ++i) {
+                        data.push({id: i, firstName: 'FirstName-' + i, lastName: 'LastName-' + i, classes: {isGood: i % 2} });
+                    }
+                    return data;
+                }
+
+
+
+            });
+
+        })();
+    </script>
+</polymer-element>
+
+</body>
+
+
+</html>

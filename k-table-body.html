@@ -1,0 +1,44 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-list/core-list.html">
+
+
+<polymer-element name="k-table-body" extends="core-list">
+
+    <template>
+        <shadow></shadow>
+    </template>
+
+    <script>
+        (function() {
+
+            Polymer({
+
+                _oldFirstVisibleIndex   : 0,
+                _oldVisibleCount        : 0,
+
+                visibleCount: function() {
+                    return Math.ceil(this._target.offsetHeight / this.height);
+                },
+
+                scrollHandler: function(e, detail) {
+                    this.super(arguments);
+
+                    if (this.data.length > 0) {
+                        var firstVisibleIndex = Math.floor(this._scrollTop / this.height),
+                                visibleCount  = Math.ceil(this._target.offsetHeight / this.height);
+                        if (firstVisibleIndex != this._oldFirstVisibleIndex || visibleCount != this._oldVisibleCount) {
+                            this._oldFirstVisibleIndex = firstVisibleIndex;
+                            this._oldVisibleCount = visibleCount;
+                            if (firstVisibleIndex + visibleCount >= this.data.length) {
+                                this.fire('scroll-bottom');
+                            }
+                        }
+                    }
+                }
+
+            });
+
+        })();
+    </script>
+
+</polymer-element>

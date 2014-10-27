@@ -1,0 +1,93 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-selector/core-selector.html">
+<link rel="import" href="../core-icon/core-icon.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+
+
+<polymer-element name="k-table-header" attributes="columns order orderName orderDir">
+
+    <template>
+
+        <link rel="stylesheet" href="k-table-header.css">
+
+        <core-selector id="selection" horizontal layout selected="{{selected}}" on-core-activate="{{handleTap}}">
+            <template repeat="{{column in columns}}">
+                <div name="{{column.name}}" class="head {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
+                    <div flex>{{column.title}}</div>
+                    <core-icon hidden?="{{column.name !== selected}}" icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
+                    <paper-ripple id="ripple" fit></paper-ripple>
+                </div>
+            </template>
+        </core-selector>
+    </template>
+
+    <script>
+        (function() {
+
+
+            var ASC         =  'asc';
+            var DESC        =  'desc';
+            var ORDER_RE    = /^(\w+)(?:\s(asc|desc)$)?/;
+
+
+            Polymer({
+
+                columns     : null,
+                selected    : null,
+                orderName   : 'id',
+                orderDir    : ASC,
+                order       : 'id',
+
+
+                observe: {
+                    'orderName orderDir': 'updateOrder'
+                },
+
+                ready: function() {
+                    this.updateOrder();
+                },
+
+                updateOrder: function() {
+                    this.order = this.orderName;
+                    if (this.orderDir === DESC) {
+                        this.order += ' ' + DESC;
+                    }
+                },
+
+                columnsChanged: function() {
+                    if (this.columns != null && this.columns != undefined) {
+                        this.orderName = 'id';
+                        this.orderDir  = ASC;
+                        for (var i = 0; i < this.columns.length; ++i) {
+                            var column = this.columns[i];
+                            if (column.defaultOrder || i === 0) {
+                                this.orderName = column.orderName;
+                                this.orderDir  = (column.orderDir !== undefined) ? column.orderDir : ASC;
+                                this.selected  = column.name;
+                            }
+                        }
+                    }
+                },
+
+                get selectedColumn() {
+                    return this.$.selection.selectedModel.column;
+                },
+
+                handleTap: function(e) {
+                    var column = this.selectedColumn;
+                    if (column.name === this.orderName) {
+                        this.orderDir = this.orderDir === ASC ? DESC : ASC;
+                    } else {
+                        this.orderName = column.name;
+                        this.orderDir  = ASC;
+                    }
+                    e.stopPropagation();
+                }
+
+            });
+
+        })();
+    </script>
+
+</polymer-element>

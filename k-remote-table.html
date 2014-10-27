@@ -1,0 +1,65 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="k-table.html">
+
+<polymer-element name="k-remote-table" extends="k-table" attributes="dataProvider limit" on-scroll-bottom="{{handleScrollBottom}}">
+
+    <template>
+        <shadow></shadow>
+    </template>
+
+    <script>
+        (function() {
+
+            Polymer({
+
+                limit           : 200,
+                auto            : false,
+                dataProvider    : null,
+
+                orderChanged: function(oldOrder, newOrder) {
+                    this.job('reloadJob', this.reloadData);
+                },
+
+                fetchData: function(params) {
+                    if (this.dataProvider === null || this.dataProvider === undefined) {
+                        return Promise.reject(new Error('Data Provider is NULL'));
+                    }
+                    params.order = this.order;
+                    params.limit = params.limit || this.limit;
+                    return this.dataProvider(params).then(function(data) {
+                        return data;
+                    });
+                },
+
+                reloadData: function() {
+                    this.data = [];
+                    var limit = this.body.visibleCount() + this.body.extraItems;
+                    var self  = this;
+                    return this.fetchData({limit: limit}).then(function(data) {
+                        self.data = data;
+                    });
+                },
+
+                loadMoreData: function() {
+                    var self = this;
+                    this.loadPromise = (Promise.resolve() || this.loadPromise).then( function() {
+                        var offset = self.data.length;
+                        return self.fetchData({offset: offset, limit: self.limit}).then(function(data) {
+                            if (data && data.length > 0) {
+                                self.data = self.data.concat(data);
+                            }
+                        });
+                    });
+                },
+
+                handleScrollBottom: function() {
+                    this.loadMoreData();
+                }
+
+            });
+
+        })();
+    </script>
+
+</polymer-element>

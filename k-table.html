@@ -1,0 +1,97 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="k-table-header.html">
+<link rel="import" href="k-table-body.html">
+<link rel="import" href="k-scroller.html">
+
+
+<polymer-element name="k-table" attributes="data columns rowHeight order stylesProp" vertical layout>
+
+<template>
+    <link rel="stylesheet" href="k-table.css">
+    <k-scroller flex auto vertical layout axis="x">
+        <k-table-header id="header" columns="{{columns}}" order="{{order}}" scrolled></k-table-header>
+        <k-table-body flex auto id="list" data="{{data}}" height="{{rowHeight}}" on-core-activate="{{handleActivate}}" scroller>
+            <template>
+                <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
+                    <template repeat="{{column in columns}}">
+                        <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
+                            {{model[column.name] | columnFilter(column)}}
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </k-table-body>
+    </k-scroller>
+</template>
+
+<script>
+(function() {
+
+    PolymerExpressions.prototype.columnFilter = function(input, column) {
+        return input;
+    };
+
+    Polymer({
+
+        rowHeight       : 80,
+        data            : null,
+        columns         : null,
+        order           : '',
+        columnObservers : [],
+        classifyBy      : 'classes',
+
+        ready: function() {
+            this.listUpdateItem     = this.body.updateItem.bind(this.body);
+            this.body.updateItem    = this.updateItem.bind(this);
+            this.setViewportHandler = this.setViewport.bind(this);
+        },
+
+        updateItem: function(virtualIndex, physicalIndex) {
+            this.listUpdateItem(virtualIndex, physicalIndex);
+            var physicalDatum = this.body._physicalData[physicalIndex];
+            var virtualDatum  = this.data && this.data[virtualIndex];
+
+            physicalDatum.columns = this.columns;
+            if (virtualDatum.hasOwnProperty(this.classifyBy)) {
+                physicalDatum.classes = virtualDatum[this.classifyBy];
+            }
+        },
+
+        columnsChanged: function() {
+            var self = this;
+            this.columnObservers.forEach(function(observer) { observer.close(); });
+            this.columnObservers.length = 0;
+            if (this.columns !== null && this.columns !== undefined) {
+                this.columns.forEach(function(column) {
+                    var observer = new CompoundObserver();
+                    observer.addPath(column, 'visible');
+                    observer.addPath(column, 'width');
+                    observer.open(self.setViewportHandler);
+                    self.columnObservers.push(observer);
+                });
+                this.setViewport();
+            }
+        },
+
+        get header()    { return this.$.header; },
+        get body()      { return this.$.list; },
+        get viewport()  { return this.body.$.viewport; },
+
+        setViewport: function() {
+            for (var totalWidth = 0, i = 0; i < this.columns.length; ++i) {
+                var column = this.columns[i];
+                if (column.visible) {
+                    totalWidth += column.width;
+                }
+            }
+            this.viewport.style.width = totalWidth + 'em';
+            this.header.style.width = totalWidth + 'em';
+        }
+
+    });
+
+})();
+</script>
+
+</polymer-element>
