@@ -5,7 +5,7 @@
 <link rel="import" href="k-scroller.html">
 
 
-<polymer-element name="k-table" attributes="data columns rowHeight order stylesProp" vertical layout>
+<polymer-element name="k-table" attributes="data columns rowHeight classifyBy" vertical layout>
 
 <template>
     <link rel="stylesheet" href="k-table.css">
@@ -87,7 +87,9 @@
             }
             this.viewport.style.width = totalWidth + 'em';
             this.header.style.width = totalWidth + 'em';
-        }
+        },
+
+
 
     });
 

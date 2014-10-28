@@ -46,7 +46,7 @@
             <paper-button on-tap="{{handleSecondColumnWidthInc}}">Increment second column width</paper-button>
         </div>
 
-        <k-table flex columns="{{columns}}" data="{{data}}" rowHeight="32" on-core-activate="{{handleActivate}}">
+        <k-table id="table" flex columns="{{columns}}" data="{{data}}" rowHeight="32" on-core-activate="{{handleActivate}}">
         </k-table>
 
     </template>
@@ -82,7 +82,11 @@
 
                 handleActivate: function(e, detail) {
                     console.log(detail.data);
-                    detail.data.id += 1;
+//                    detail.data.id += 1;
+//                    this.$.table.body.updateItem(0, 0);
+
+                    {id: 1, firstName: 'Nick',   lastName: 'Chistyakov'  }
+
                 },
 
                 handleSecondColumnWidthInc: function() {
