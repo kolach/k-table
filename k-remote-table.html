@@ -33,7 +33,6 @@
                 },
 
                 reloadData: function() {
-                    this.data = [];
                     var limit = this.body.visibleCount() + this.body.extraItems;
                     var self  = this;
                     return this.fetchData({limit: limit}).then(function(data) {

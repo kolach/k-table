@@ -13,7 +13,7 @@
   ],
   "main": "k-table.html",
   "license": "MIT",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/kolach/k-table/",
   "ignore": [
     "/.*",
     "/tests/"

@@ -16,7 +16,7 @@
                 <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
                     <template repeat="{{column in columns}}">
                         <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
-                            {{model[column.name] | columnFilter(column)}}
+                            {{model | columnFilter(column)}}
                         </div>
                     </template>
                 </div>
@@ -28,8 +28,8 @@
 <script>
 (function() {
 
-    PolymerExpressions.prototype.columnFilter = function(input, column) {
-        return input;
+    PolymerExpressions.prototype.columnFilter = PolymerExpressions.prototype.columnFilter || function(input, column) {
+        return input[column.name];
     };
 
     Polymer({
@@ -53,7 +53,7 @@
             var virtualDatum  = this.data && this.data[virtualIndex];
 
             physicalDatum.columns = this.columns;
-            if (virtualDatum.hasOwnProperty(this.classifyBy)) {
+            if (virtualDatum && virtualDatum.hasOwnProperty(this.classifyBy)) {
                 physicalDatum.classes = virtualDatum[this.classifyBy];
             }
         },

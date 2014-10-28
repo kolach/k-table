@@ -14,7 +14,7 @@
         <core-selector id="selection" horizontal layout selected="{{selected}}" on-core-activate="{{handleTap}}">
             <template repeat="{{column in columns}}">
                 <div name="{{column.name}}" class="head {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
-                    <div flex>{{column.title}}</div>
+                    <div flex>{{column | headerFilter}}</div>
                     <core-icon hidden?="{{column.name !== selected}}" icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
                     <paper-ripple id="ripple" fit></paper-ripple>
                 </div>
@@ -24,6 +24,10 @@
 
     <script>
         (function() {
+
+            PolymerExpressions.prototype.headerFilter = PolymerExpressions.prototype.headerFilter || function(column) {
+                return column.name;
+            };
 
 
             var ASC         =  'asc';
@@ -76,10 +80,10 @@
 
                 handleTap: function(e) {
                     var column = this.selectedColumn;
-                    if (column.name === this.orderName) {
+                    if (column.orderName === this.orderName) {
                         this.orderDir = this.orderDir === ASC ? DESC : ASC;
                     } else {
-                        this.orderName = column.name;
+                        this.orderName = column.orderName;
                         this.orderDir  = ASC;
                     }
                     e.stopPropagation();
