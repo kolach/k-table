@@ -29,7 +29,9 @@ paper-ripple {
 .head > core-icon {
     position: absolute;
     right: 0;
-    top: calc(50% - 12px);
+    /*top: calc(50% - 12px);*/
+    top: 12px;
+    background-color: white;
 }
 
 :host .core-selected {

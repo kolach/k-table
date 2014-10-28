@@ -5,7 +5,7 @@
 <link rel="import" href="../paper-ripple/paper-ripple.html">
 
 
-<polymer-element name="k-table-header" attributes="columns order orderName orderDir">
+<polymer-element name="k-table-header" attributes="columns order orderName orderDir" vertical layout>
 
     <template>
 
@@ -15,11 +15,13 @@
             <template repeat="{{column in columns}}">
                 <div name="{{column.name}}" class="head {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
                     <div flex>{{column | headerFilter}}</div>
+                    <div>{{orderDir}}</div>
                     <core-icon hidden?="{{column.name !== selected}}" icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
                     <paper-ripple id="ripple" fit></paper-ripple>
                 </div>
             </template>
         </core-selector>
+
     </template>
 
     <script>
@@ -38,7 +40,7 @@
             Polymer({
 
                 columns     : null,
-                selected    : null,
+                selected    : '',
                 orderName   : 'id',
                 orderDir    : ASC,
                 order       : 'id',
@@ -59,13 +61,24 @@
                     }
                 },
 
+                orderChanged: function(old) {
+                    var orderMatch  = this.order.match(ORDER_RE);
+                    if (orderMatch) {
+                        this.orderName = orderMatch[1];
+                        this.orderDir  = orderMatch[2] || ASC;
+                        this.selected  = this.orderName;
+                    } else {
+                        console.warn('Wrong order expression', this.order);
+                    }
+                },
+
                 columnsChanged: function() {
                     if (this.columns != null && this.columns != undefined) {
-                        this.orderName = 'id';
-                        this.orderDir  = ASC;
+//                        this.orderName = 'id';
+//                        this.orderDir  = ASC;
                         for (var i = 0; i < this.columns.length; ++i) {
                             var column = this.columns[i];
-                            if (column.defaultOrder || i === 0) {
+                            if (column.defaultOrder) {
                                 this.orderName = column.orderName;
                                 this.orderDir  = (column.orderDir !== undefined) ? column.orderDir : ASC;
                                 this.selected  = column.name;
