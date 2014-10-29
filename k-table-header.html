@@ -15,7 +15,6 @@
             <template repeat="{{column in columns}}">
                 <div name="{{column.name}}" class="head {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
                     <div flex>{{column | headerFilter}}</div>
-                    <div>{{orderDir}}</div>
                     <core-icon hidden?="{{column.name !== selected}}" icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
                     <paper-ripple id="ripple" fit></paper-ripple>
                 </div>
@@ -66,7 +65,7 @@
                     if (orderMatch) {
                         this.orderName = orderMatch[1];
                         this.orderDir  = orderMatch[2] || ASC;
-                        this.selected  = this.orderName;
+//                        this.selected  = this.orderName;
                     } else {
                         console.warn('Wrong order expression', this.order);
                     }
