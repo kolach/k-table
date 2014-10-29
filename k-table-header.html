@@ -15,7 +15,7 @@
             <template repeat="{{column in columns}}">
                 <div name="{{column.orderName}}" class="head {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
                     <div flex>{{column | headerFilter}}</div>
-                    <core-icon hidden?="{{column.name !== selected}}" icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
+                    <core-icon icon="arrow-drop-{{orderDir === 'asc' ? 'up' : 'down'}}"></core-icon>
                     <paper-ripple id="ripple" fit></paper-ripple>
                 </div>
             </template>
