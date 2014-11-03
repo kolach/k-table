@@ -34,6 +34,41 @@
                             }
                         }
                     }
+                },
+
+                removeItem: function(data) {
+                    var index = this.data.indexOf(data);
+                    if (index >= 0) {
+                        this.data.splice(index, 1);
+
+                    }
+                },
+
+                unshiftSelect: function(data) {
+                    this.data.unshift(data);
+                    this.selectItem(0);
+                },
+
+                removeSelection: function() {
+                    if (this.multi) {
+                        for (var i = 0; i < this.selection.length; ++i) {
+                            this.removeItem(this.selection[i]);
+                        }
+                    } else {
+                        this.removeItem(this.selection);
+                    }
+                },
+
+                replaceSelection: function(data) {
+                    if (this.multi) {
+                        console.error('Not supported in multi select mode');
+                    } else {
+                        var index = this.data.indexOf(this.selection);
+                        if (index >= 0) {
+                            this.data[index] = data;
+                            this.selectItem(index);
+                        }
+                    }
                 }
 
             });

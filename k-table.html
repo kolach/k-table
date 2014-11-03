@@ -29,6 +29,9 @@
 (function() {
 
     PolymerExpressions.prototype.columnFilter = PolymerExpressions.prototype.columnFilter || function(input, column) {
+        if (typeof input !== 'object') {
+            return '';
+        }
         return input[column.name];
     };
 
@@ -45,6 +48,11 @@
             this.listUpdateItem     = this.body.updateItem.bind(this.body);
             this.body.updateItem    = this.updateItem.bind(this);
             this.setViewportHandler = this.setViewport.bind(this);
+
+            // Forward body methods
+            this.removeSelection  = this.body.removeSelection.bind(this.body);
+            this.replaceSelection = this.body.replaceSelection.bind(this.body);
+            this.unshiftSelect    = this.body.unshiftSelect.bind(this.body);
         },
 
         updateItem: function(virtualIndex, physicalIndex) {
@@ -87,8 +95,7 @@
             }
             this.viewport.style.width = totalWidth + 'em';
             this.header.style.width = totalWidth + 'em';
-        },
-
+        }
 
 
     });

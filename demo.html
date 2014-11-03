@@ -44,6 +44,9 @@
         <div horizontal layout>
             <paper-button on-tap="{{handleHideFirstColumn}}">Hide first column</paper-button>
             <paper-button on-tap="{{handleSecondColumnWidthInc}}">Increment second column width</paper-button>
+            <paper-button on-tap="{{handleRemoveSelected}}">Remove Selected</paper-button>
+            <paper-button on-tap="{{handleReplaceSelected}}">Replace Selected</paper-button>
+            <paper-button on-tap="{{handleInsertOnTop}}">Insert On Top</paper-button>
         </div>
 
         <k-table id="table" flex columns="{{columns}}" order="id desc" data="{{data}}" rowHeight="32" on-core-activate="{{handleActivate}}">
@@ -86,6 +89,18 @@
 
                 handleSecondColumnWidthInc: function() {
                     this.columns[1].width += 10;
+                },
+
+                handleRemoveSelected: function() {
+                    this.$.table.removeSelection();
+                },
+
+                handleReplaceSelected: function() {
+                    this.$.table.replaceSelection({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
+                },
+
+                handleInsertOnTop: function() {
+                    this.$.table.unshiftSelect({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
                 }
 
             });
