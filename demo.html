@@ -37,6 +37,12 @@
                 background-color: white;
                 overflow: hidden;
             }
+
+            k-table /deep/ .row.russian > .id {
+                background-color: indianred;
+                color: white;
+            }
+
         </style>
 
 
@@ -71,9 +77,9 @@
 
                 generateData: function() {
                     return [
-                        {id: 1, firstName: 'Nick',   lastName: 'Chistyakov'  },
-                        {id: 2, firstName: 'Julia',  lastName: 'Chistyakova' },
-                        {id: 3, firstName: 'John',   lastName: 'Smith'       }
+                        {id: 1, firstName: 'Nick',   lastName: 'Chistyakov', classes: {russian: true}  },
+                        {id: 2, firstName: 'Julia',  lastName: 'Chistyakova', classes: {russian: true} },
+                        {id: 3, firstName: 'John',   lastName: 'Smith', classes: {russian: false} }
                     ];
                 },
 

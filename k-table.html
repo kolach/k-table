@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="k-table.css">
     <k-scroller flex auto vertical layout axis="x">
         <k-table-header id="header" columns="{{columns}}" order="{{order}}" scrolled></k-table-header>
-        <k-table-body flex auto id="list" data="{{data}}" height="{{rowHeight}}" on-core-activate="{{handleActivate}}" scroller>
+        <k-table-body flex auto id="list" data="{{data}}" height="{{rowHeight}}" columns="{{columns}}" classifyBy="{{classifyBy}}" on-core-activate="{{handleActivate}}" scroller>
             <template>
                 <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
                     <template repeat="{{column in columns}}">
@@ -45,24 +45,12 @@
         classifyBy      : 'classes',
 
         ready: function() {
-            this._updateItemData        = this.body._updateItemData.bind(this.body);
-            this.body._updateItemData   = this._updateItemData.bind(this);
             this.setViewportHandler     = this.setViewport.bind(this);
 
             // Forward body methods
             this.removeSelection  = this.body.removeSelection.bind(this.body);
             this.replaceSelection = this.body.replaceSelection.bind(this.body);
             this.unshiftSelect    = this.body.unshiftSelect.bind(this.body);
-        },
-
-        _updateItemData: function(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex) {
-            this._updateItemData(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex);
-            var physicalDatum = this._physicalData[physicalIndex];
-            var virtualDatum = this.dataForIndex(virtualIndex, groupIndex, groupItemIndex);
-            physicalDatum.columns = this.columns;
-            if (virtualDatum && virtualDatum[this.classifyBy]) {
-                physicalDatum.classes = virtualDatum[this.classifyBy];
-            }
         },
 
         columnsChanged: function() {
