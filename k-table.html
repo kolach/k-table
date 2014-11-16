@@ -45,9 +45,9 @@
         classifyBy      : 'classes',
 
         ready: function() {
-            this.listUpdateItem     = this.body.updateItem.bind(this.body);
-            this.body.updateItem    = this.updateItem.bind(this);
-            this.setViewportHandler = this.setViewport.bind(this);
+            this._updateItemData        = this.body._updateItemData.bind(this.body);
+            this.body._updateItemData   = this._updateItemData.bind(this);
+            this.setViewportHandler     = this.setViewport.bind(this);
 
             // Forward body methods
             this.removeSelection  = this.body.removeSelection.bind(this.body);
@@ -55,11 +55,10 @@
             this.unshiftSelect    = this.body.unshiftSelect.bind(this.body);
         },
 
-        updateItem: function(virtualIndex, physicalIndex) {
-            this.listUpdateItem(virtualIndex, physicalIndex);
-            var physicalDatum = this.body._physicalData[physicalIndex];
-            var virtualDatum  = this.data && this.data[virtualIndex];
-
+        _updateItemData: function(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex) {
+            this._updateItemData(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex);
+            var physicalDatum = this._physicalData[physicalIndex];
+            var virtualDatum = this.dataForIndex(virtualIndex, groupIndex, groupItemIndex);
             physicalDatum.columns = this.columns;
             if (virtualDatum && virtualDatum[this.classifyBy]) {
                 physicalDatum.classes = virtualDatum[this.classifyBy];
@@ -94,7 +93,7 @@
                 }
             }
             this.viewport.style.width = totalWidth + 'em';
-            this.header.style.width = totalWidth + 'em';
+            this.header.style.width   = totalWidth + 'em';
         }
 
 

@@ -19,10 +19,10 @@
     "/tests/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.4.2",
-    "core-elements": "Polymer/core-elements#^0.4.2"
+    "polymer": "Polymer/polymer#^0.5.1",
+    "core-elements": "Polymer/core-elements#^0.5.1"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^0.7.3"
+    "web-component-tester": "Polymer/web-component-tester#^1.4.2"
   }
 }
