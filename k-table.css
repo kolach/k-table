@@ -33,6 +33,7 @@
     cursor: default;
     background-color: white;
     overflow: hidden;
+    width: auto !important;
 }
 
 
