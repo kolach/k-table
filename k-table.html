@@ -15,7 +15,7 @@
             <template>
                 <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
                     <template repeat="{{column in columns}}">
-                        <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
+                        <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em;min-width:{{column.width}}em;max-width:{{column.width}}em" hidden?="{{!column.visible}}">
                             {{model | columnFilter(column)}}
                         </div>
                     </template>
