@@ -15,7 +15,7 @@
             <template>
                 <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
                     <template repeat="{{column in columns}}">
-                        <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
+                        <div class="cell {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
                             {{model | columnFilter(column)}}
                         </div>
                     </template>
@@ -45,8 +45,7 @@
         classifyBy      : 'classes',
 
         ready: function() {
-            this.setViewportHandler     = this.setViewport.bind(this);
-
+            this.setViewportHandler = this.setViewport.bind(this);
             // Forward body methods
             this.removeSelection  = this.body.removeSelection.bind(this.body);
             this.replaceSelection = this.body.replaceSelection.bind(this.body);
