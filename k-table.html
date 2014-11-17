@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="k-table.css">
     <k-scroller flex auto vertical layout axis="x">
         <k-table-header id="header" columns="{{columns}}" order="{{order}}" scrolled></k-table-header>
-        <k-table-body flex auto id="list" data="{{data}}" height="{{rowHeight}}" on-core-activate="{{handleActivate}}" scroller>
+        <k-table-body flex auto id="list" data="{{data}}" height="{{rowHeight}}" columns="{{columns}}" classifyBy="{{classifyBy}}" on-core-activate="{{handleActivate}}" scroller>
             <template>
                 <div class="row {{classes | tokenList}}" selected?="{{selected}}" horizontal layout>
                     <template repeat="{{column in columns}}">
-                        <div class="cell {{column.name}} {{column.classes | tokenList}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
+                        <div class="cell {{column.name}}" style="width:{{column.width}}em" hidden?="{{!column.visible}}">
                             {{model | columnFilter(column)}}
                         </div>
                     </template>
@@ -45,25 +45,12 @@
         classifyBy      : 'classes',
 
         ready: function() {
-            this.listUpdateItem     = this.body.updateItem.bind(this.body);
-            this.body.updateItem    = this.updateItem.bind(this);
             this.setViewportHandler = this.setViewport.bind(this);
 
             // Forward body methods
             this.removeSelection  = this.body.removeSelection.bind(this.body);
             this.replaceSelection = this.body.replaceSelection.bind(this.body);
             this.unshiftSelect    = this.body.unshiftSelect.bind(this.body);
-        },
-
-        updateItem: function(virtualIndex, physicalIndex) {
-            this.listUpdateItem(virtualIndex, physicalIndex);
-            var physicalDatum = this.body._physicalData[physicalIndex];
-            var virtualDatum  = this.data && this.data[virtualIndex];
-
-            physicalDatum.columns = this.columns;
-            if (virtualDatum && virtualDatum[this.classifyBy]) {
-                physicalDatum.classes = virtualDatum[this.classifyBy];
-            }
         },
 
         columnsChanged: function() {
