@@ -72,9 +72,9 @@
 
                 generateData: function() {
                     return [
-                        {id: 1, firstName: 'Nick',   lastName: 'Chistyakov'  },
-                        {id: 2, firstName: 'Julia',  lastName: 'Chistyakova' },
-                        {id: 3, firstName: 'John',   lastName: 'Smith'       }
+                        {id: 1, firstName: 'John', lastName: 'Doe'      },
+                        {id: 2, firstName: 'Jane', lastName: 'Doe'      },
+                        {id: 3, firstName: 'John', lastName: 'Smith'    }
                     ];
                 },
 
@@ -82,9 +82,7 @@
                     this.columns[0].visible = !this.columns[0].visible;
                 },
 
-
                 handleActivate: function(e, detail) {
-                    console.log(detail.data);
                 },
 
                 handleSecondColumnWidthInc: function() {
@@ -92,15 +90,23 @@
                 },
 
                 handleRemoveSelected: function() {
-                    this.$.table.removeSelection();
+                    var selection = this.$.table.body.selection;
+                    var index = this.data.indexOf(selection);
+                    if (index >= 0) {
+                        this.data.splice(index, 1);
+                    }
                 },
 
                 handleReplaceSelected: function() {
-                    this.$.table.replaceSelection({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
+                    var selection = this.$.table.body.selection;
+                    var index = this.data.indexOf(selection);
+                    if (index >= 0) {
+                        this.data[index] = {id: 1, firstName: 'Jim', lastName: 'White', $select: true}
+                    }
                 },
 
                 handleInsertOnTop: function() {
-                    this.$.table.unshiftSelect({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
+                    this.data.unshift({id: 1, firstName: 'Abraham',   lastName: 'Top', $select: true});
                 }
 
             });
