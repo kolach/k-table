@@ -61,7 +61,7 @@ should be done via binding to the `selected` property of each model.
     <template>
         <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectedHandler}}"></core-selection>
         <link rel="stylesheet" href="k-core-list.css">
-        <div id="viewport" class="core-list-viewport"><content></content></div>
+        <div id="viewport" class="core-list-viewport" hidden?="{{!data.length}}"><content></content></div>
     </template>
     <script>
         (function() {
