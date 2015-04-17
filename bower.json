@@ -1,6 +1,6 @@
 {
   "name": "k-table",
-  "version": "0.5.1",
+  "version": "0.5",
   "authors": [
     "kolach <chikolad@gmail.com>"
   ],
@@ -19,10 +19,9 @@
     "/tests/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5.1",
-    "core-elements": "Polymer/core-elements#^0.5.1"
+
+    "polymer": "Polymer/polymer#0.5",
+    "core-elements": "Polymer/core-elements#^0.5"
   },
-  "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^1.4.2"
-  }
+  "devDependencies": {}
 }

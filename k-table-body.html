@@ -14,15 +14,31 @@
                 _oldFirstVisibleIndex   : 0,
                 _oldVisibleCount        : 0,
 
+
+
+
                 updateItem: function(virtualIndex, physicalIndex) {
+
+                    this.super(arguments);
+
                     var physicalDatum = this._physicalData[physicalIndex];
                     var virtualDatum  = this.data && this.data[virtualIndex];
+
                     physicalDatum.columns = this.columns;
+
+                    if (virtualDatum && virtualDatum.$select) {
+                        this.$.selection.select(virtualDatum);
+                        physicalDatum.selected = true;
+                        delete virtualDatum.$select;
+                    }
+
                     if (virtualDatum && virtualDatum[this.classifyBy]) {
                         physicalDatum.classes = virtualDatum[this.classifyBy];
                     }
-                    return this.super(arguments);
+
+
                 },
+
 
                 visibleCount: function() {
                     return Math.ceil(this._target.offsetHeight / this.height);

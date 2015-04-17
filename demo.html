@@ -13,9 +13,9 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>k-table Demo</title>
     <script src="../webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="k-table.html">
     <link rel="import" href="../paper-button/paper-button.html">
     <link rel="import" href="../core-toolbar/core-toolbar.html">
-    <link rel="import" href="k-table.html">
 </head>
 
 <body unresolved fullbleed vertical layout>
@@ -77,9 +77,9 @@
 
                 generateData: function() {
                     return [
-                        {id: 1, firstName: 'Nick',   lastName: 'Chistyakov', classes: {russian: true}  },
-                        {id: 2, firstName: 'Julia',  lastName: 'Chistyakova', classes: {russian: true} },
-                        {id: 3, firstName: 'John',   lastName: 'Smith', classes: {russian: false} }
+                        {id: 1, firstName: 'John', lastName: 'Doe'      },
+                        {id: 2, firstName: 'Jane', lastName: 'Doe'      },
+                        {id: 3, firstName: 'John', lastName: 'Smith'    }
                     ];
                 },
 
@@ -87,9 +87,7 @@
                     this.columns[0].visible = !this.columns[0].visible;
                 },
 
-
                 handleActivate: function(e, detail) {
-                    console.log(detail.data);
                 },
 
                 handleSecondColumnWidthInc: function() {
@@ -97,15 +95,23 @@
                 },
 
                 handleRemoveSelected: function() {
-                    this.$.table.removeSelection();
+                    var selection = this.$.table.body.selection;
+                    var index = this.data.indexOf(selection);
+                    if (index >= 0) {
+                        this.data.splice(index, 1);
+                    }
                 },
 
                 handleReplaceSelected: function() {
-                    this.$.table.replaceSelection({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
+                    var selection = this.$.table.body.selection;
+                    var index = this.data.indexOf(selection);
+                    if (index >= 0) {
+                        this.data[index] = {id: 1, firstName: 'Jim', lastName: 'White', $select: true}
+                    }
                 },
 
                 handleInsertOnTop: function() {
-                    this.$.table.unshiftSelect({id: 1, firstName: 'Fedor',   lastName: 'Chistyakov'  });
+                    this.data.unshift({id: 1, firstName: 'Abraham',   lastName: 'Top', $select: true});
                 }
 
             });

@@ -35,6 +35,7 @@
                 reloadData: function() {
                     var limit = this.body.visibleCount() + this.body.extraItems;
                     var self  = this;
+                    self.data = [];
                     return this.fetchData({limit: limit}).then(function(data) {
                         self.data = data;
                     });

@@ -48,3 +48,7 @@
 .row[selected] {
     font-weight: bold;
 }
+
+k-table-body::shadow #viewport {
+    border-bottom: 1px solid #ddd;
+}
